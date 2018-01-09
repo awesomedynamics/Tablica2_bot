@@ -1,5 +1,13 @@
 import telebot
+import pymongo
 from telebot import types
+from pymongo import MongoClient
+
+#подключаемся к монго
+client = MongoClient("ds141786.mlab.com:41786", username = 'podarkin', password = 'podarkin', authSource = 'heroku_q51pzrtm')
+db = client["heroku_q51pzrtm"]
+bookings_collection = db.bookings
+
 
 no_keyboard = types.ReplyKeyboardRemove()
 
@@ -56,14 +64,14 @@ def  office(message: telebot.types.Message):
         markup.row(buttons_office_book[0], buttons_office_book[1])
 
         bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на четверых")
-        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#!/tproduct/34756154-1507644732627",reply_markup=markup)
+        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1507644732627",reply_markup=markup)
 
     if number_of_empl == 5:
         markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
         buttons_office_book = ["Хочу этот офис!", "В главное меню"]
         markup.row(buttons_office_book[0], buttons_office_book[1])
         bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на пятерых")
-        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#!/tproduct/34756154-1498486301712",reply_markup=markup)
+        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1498486301712",reply_markup=markup)
 
 
     if number_of_empl == 6:
@@ -71,11 +79,11 @@ def  office(message: telebot.types.Message):
         buttons_office_book = ["Хочу этот офис!", "В главное меню"]
         markup.row(buttons_office_book[0], buttons_office_book[1])
         bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на шестерых")
-        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#!/tproduct/34756154-1507644678469",reply_markup=markup)
+        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1507644678469",reply_markup=markup)
 
 
     if number_of_empl > 6:
-        bot.send_message(chat_id=message.chat.id, text="это еще не доделано")
+        bot.send_message(chat_id=message.chat.id, text="это еще не доделано, давай тестить на кол-ве меньше 6")
 
 #  обрабатываем кнопку Коворкинг
 @bot.message_handler(func=lambda message: message.text is not None and message.text == "Коворкинг")
@@ -84,6 +92,10 @@ def coworking(message: telebot.types.Message):
     buttons_cowork_book = ["Хочу в коворкинг!", "В главное меню"]
     markup.row(buttons_cowork_book[0], buttons_cowork_book[1])
     bot.send_message(chat_id=message.chat.id, text="У нас рабочее место от 500 рублей в день, хочешь забронировать ?", reply_markup=markup)
+
+
+#  обрабатываем кнопку Хочу в коворкинг!
+
 
 #  обрабатываем кнопку В главное меню
 @bot.message_handler(func=lambda message: message.text is not None and message.text == "В главное меню")
@@ -94,6 +106,8 @@ def main_menu(message: telebot.types.Message):
     markup.row(commands[2], commands[3])
     bot.send_message(message.chat.id, "Так о чем же тебе рассказать ?",
                      reply_markup=markup)
+
+
 
 
 #handling free text message
