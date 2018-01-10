@@ -2,6 +2,7 @@ import telebot
 import pymongo
 from telebot import types
 from pymongo import MongoClient
+import datetime
 
 #подключаемся к монго
 client = MongoClient("ds141786.mlab.com:41786", username = 'podarkin', password = 'podarkin', authSource = 'heroku_q51pzrtm')
@@ -54,7 +55,7 @@ def  office(message: telebot.types.Message):
 
 # Обрабатываем ответ о кол-ве людей в офисе
 @bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "Number of people in office:")
-def  office(message: telebot.types.Message):
+def  office_options(message: telebot.types.Message):
 
     # убедимся что нам дали число сотрудников. Если там текст то заставим повторить и запустим функцию заново
     try:
@@ -138,9 +139,33 @@ def book_coworking(message: telebot.types.Message):
 
 # Обрабатываем кнопку Мероприятие
 @bot.message_handler(func = lambda message: message.text is not None and message.text == "Мероприятие")
-def  office(message: telebot.types.Message):
+def event(message: telebot.types.Message):
     reply_markup = types.ForceReply()
     bot.send_message(chat_id=message.chat.id, text="Number of people in event:", reply_markup=reply_markup)
+    update_booking(chat_id=message.chat.id, product="event")
+
+
+# Обрабатываем ответ о кол-ве людей на Мероприятие
+@bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "Number of people in event:")
+def event_size(message: telebot.types.Message):
+
+    # убедимся что нам дали число сотрудников. Если там текст то заставим повторить и запустим функцию заново
+    try:
+        number_of_ppl = int(message.text)
+    except ValueError:
+        number_of_ppl = message.text
+        bot.send_message(chat_id=message.chat.id, text="что-то не так, введи, пожалуйста, ЧИСЛО людей на мероприятии")
+        reply_markup = types.ForceReply()
+        bot.send_message(chat_id=message.chat.id, text="Number of people in office:", reply_markup=reply_markup)
+        return None
+
+    get_calendar(message)
+
+    update_booking(chat_id=message.chat.id, people=message.text)
+
+
+
+
 
 
 #  обрабатываем кнопку Перезвони мне!
@@ -182,17 +207,9 @@ def main_menu(message: telebot.types.Message):
 
 
 
-#handling free text message
-@bot.message_handler()
-def free_text(message: telebot.types.Message):
-
-    answer = "Не еби мою нейросетку! Жми кнопки! "
-    bot.send_message(message.chat.id, answer)
-
-
 #функция апдейтит базу контактом или продуктом
 
-def update_booking(chat_id, product = None, contact = None):
+def update_booking(chat_id, product = None, contact = None, people = None, date = None):
 
     if product is not None:
 
@@ -212,6 +229,105 @@ def update_booking(chat_id, product = None, contact = None):
             }
         )
 
+    if people is not None:
+
+        bookings_coll.update_one(
+            {"chat_id": chat_id},
+            {
+                "$set": {"people": people}
+            }
+        )
+
+    if date is not None:
+
+        bookings_coll.update_one(
+            {"chat_id": chat_id},
+            {
+                "$set": {"date": date}
+            }
+        )
+
+#календарь
+from telegramcalendar import create_calendar
+current_shown_dates={}
+
+#@bot.message_handler(commands=['calendar'])
+def get_calendar(message):
+    now = datetime.datetime.now() #Current date
+    chat_id = message.chat.id
+    date = (now.year,now.month)
+    current_shown_dates[chat_id] = date #Saving the current date in a dict
+    markup= create_calendar(now.year,now.month)
+    bot.send_message(message.chat.id, "Please, choose a date", reply_markup=markup)
+
+
+#функции передвижения по календарю
+@bot.callback_query_handler(func=lambda call: call.data == 'next-month')
+def next_month(call):
+    chat_id = call.message.chat.id
+    saved_date = current_shown_dates.get(chat_id)
+    if(saved_date is not None):
+        year,month = saved_date
+        month+=1
+        if month>12:
+            month=1
+            year+=1
+        date = (year,month)
+        current_shown_dates[chat_id] = date
+        markup= create_calendar(year,month)
+        bot.edit_message_text("Please, choose a date", call.from_user.id, call.message.message_id, reply_markup=markup)
+        bot.answer_callback_query(call.id, text="")
+    else:
+        #Do something to inform of the error
+        pass
+
+@bot.callback_query_handler(func=lambda call: call.data == 'previous-month')
+def previous_month(call):
+    chat_id = call.message.chat.id
+    saved_date = current_shown_dates.get(chat_id)
+    if(saved_date is not None):
+        year,month = saved_date
+        month-=1
+        if month<1:
+            month=12
+            year-=1
+        date = (year,month)
+        current_shown_dates[chat_id] = date
+        markup= create_calendar(year,month)
+        bot.edit_message_text("Please, choose a date", call.from_user.id, call.message.message_id, reply_markup=markup)
+        bot.answer_callback_query(call.id, text="")
+    else:
+        #Do something to inform of the error
+        pass
+
+
+@bot.callback_query_handler(func=lambda call: call.data[0:13] == 'calendar-day-')
+def get_day(call):
+    chat_id = call.message.chat.id
+    saved_date = current_shown_dates.get(chat_id)
+    if(saved_date is not None):
+        day=call.data[13:]
+        date = datetime.datetime(int(saved_date[0]),int(saved_date[1]),int(day),0,0,0)
+        bot.send_message(chat_id, str(date))
+        bot.answer_callback_query(call.id, text="")
+
+    else:
+        #Do something to inform of the error
+        pass
+
+    update_booking(chat_id=chat_id, date = date)
+
+    reply_markup = types.ForceReply()
+    bot.send_message(chat_id=call.message.chat.id, text="все получилось! оставь нам свой телефон и мы перезвоним")
+    bot.send_message(chat_id=call.message.chat.id, text="мой телефон:", reply_markup=reply_markup)
+
+
+#handling free text message
+@bot.message_handler()
+def free_text(message: telebot.types.Message):
+
+    answer = "Не еби мою нейросетку! Жми кнопки! "
+    bot.send_message(message.chat.id, answer)
 
 
 bot.polling()
