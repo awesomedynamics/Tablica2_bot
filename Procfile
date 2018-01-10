@@ -1,1 +1,1 @@
-worker: python tablica2.py
+worker: python tablica_bot.py
