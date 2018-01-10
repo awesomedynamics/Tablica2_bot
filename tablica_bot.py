@@ -106,6 +106,15 @@ def  office(message: telebot.types.Message):
     if number_of_empl > 6:
         bot.send_message(chat_id=message.chat.id, text="это еще не доделано, давай тестить на кол-ве меньше 6")
 
+
+#  обрабатываем кнопку Хочу этот офис!
+
+@bot.message_handler(func = lambda message: message.text is not None and message.text == "Хочу этот офис!")
+def book_office(message: telebot.types.Message):
+    reply_markup = types.ForceReply()
+    bot.send_message(chat_id=message.chat.id, text="оставь нам свой телефон и мы перезвоним")
+    bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
+
 #  обрабатываем кнопку Коворкинг
 @bot.message_handler(func=lambda message: message.text is not None and message.text == "Коворкинг")
 def coworking(message: telebot.types.Message):
