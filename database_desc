@@ -1,0 +1,17 @@
+collections:
+bookings
+log
+
+
+bookings:
+chat_id
+name
+product
+contact
+
+
+log:
+chat_id
+name
+message
+time

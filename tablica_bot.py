@@ -6,7 +6,7 @@ from pymongo import MongoClient
 #подключаемся к монго
 client = MongoClient("ds141786.mlab.com:41786", username = 'podarkin', password = 'podarkin', authSource = 'heroku_q51pzrtm')
 db = client["heroku_q51pzrtm"]
-bookings_collection = db.bookings
+bookings_coll = db.bookings
 
 
 no_keyboard = types.ReplyKeyboardRemove()
@@ -29,11 +29,28 @@ def start_command(message: telebot.types.Message):
     bot.send_message(message.chat.id, "Так о чем же тебе рассказать ?",
                      reply_markup=markup)
 
+    print(message)
+
+    username = str(message.chat.first_name) + " " + str(message.chat.last_name)
+
+    print(username)
+
+    #вставляем в монго запись
+    booking = {
+        "chat_id" : message.chat.id,
+        "name" : username,
+        "product" : None,
+        "contact" : None
+    }
+
+    bookings_coll.insert_one(booking)
+
 # Обрабатываем кнопку офис
 @bot.message_handler(func = lambda message: message.text is not None and message.text == "Офис")
 def  office(message: telebot.types.Message):
     reply_markup = types.ForceReply()
     bot.send_message(chat_id=message.chat.id, text="Number of people in office:", reply_markup=reply_markup)
+
 
 # Обрабатываем ответ о кол-ве людей в офисе
 @bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "Number of people in office:")
@@ -96,6 +113,39 @@ def coworking(message: telebot.types.Message):
 
 #  обрабатываем кнопку Хочу в коворкинг!
 
+@bot.message_handler(func = lambda message: message.text is not None and message.text == "Хочу в коворкинг!")
+def  office(message: telebot.types.Message):
+    reply_markup = types.ForceReply()
+    bot.send_message(chat_id=message.chat.id, text="оставь нам свой телефон и мы перезвоним")
+    bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
+
+    #апдейтим состояние клиента в монго
+
+    bookings_coll.update_one(
+        {"chat_id" : message.chat.id},
+        {
+            "$set" : {"product" : "coworking"}
+        }
+    )
+
+# Обрабатываем ответ с номером телефона
+@bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "мой телефон:")
+def  get_contact(message: telebot.types.Message):
+
+    # апдейтим контакт в монго
+    bookings_coll.update_one(
+        {"chat_id": message.chat.id},
+        {
+            "$set": {"contact": message.text}
+        }
+    )
+
+    markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+    buttons_final = ["В главное меню"]
+    markup.row(buttons_final[0])
+
+
+    bot.send_message(chat_id=message.chat.id, text="круто! мы перезвоним в ближайшее время !", reply_markup=markup)
 
 #  обрабатываем кнопку В главное меню
 @bot.message_handler(func=lambda message: message.text is not None and message.text == "В главное меню")
