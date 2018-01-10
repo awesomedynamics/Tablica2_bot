@@ -35,7 +35,7 @@ def start_command(message: telebot.types.Message):
 
     print(username)
 
-    #вставляем в монго запись
+    #вставляем в монго запись - раз и навсегда
     booking = {
         "chat_id" : message.chat.id,
         "name" : username,
@@ -82,6 +82,8 @@ def  office(message: telebot.types.Message):
 
         bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на четверых")
         bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1507644732627",reply_markup=markup)
+        # апдейтим состояние клиента в монго
+        update_booking(chat_id=message.chat.id, product="office 4")
 
     if number_of_empl == 5:
         markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
@@ -89,7 +91,8 @@ def  office(message: telebot.types.Message):
         markup.row(buttons_office_book[0], buttons_office_book[1])
         bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на пятерых")
         bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1498486301712",reply_markup=markup)
-
+        # апдейтим состояние клиента в монго
+        update_booking(chat_id=message.chat.id, product="office 5")
 
     if number_of_empl == 6:
         markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
@@ -97,7 +100,8 @@ def  office(message: telebot.types.Message):
         markup.row(buttons_office_book[0], buttons_office_book[1])
         bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на шестерых")
         bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1507644678469",reply_markup=markup)
-
+        # апдейтим состояние клиента в монго
+        update_booking(chat_id=message.chat.id, product="office 6")
 
     if number_of_empl > 6:
         bot.send_message(chat_id=message.chat.id, text="это еще не доделано, давай тестить на кол-ве меньше 6")
@@ -120,13 +124,6 @@ def book_coworking(message: telebot.types.Message):
     bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
 
     #апдейтим состояние клиента в монго
-
-    # bookings_coll.update_one(
-    #     {"chat_id" : message.chat.id},
-    #     {
-    #         "$set" : {"product" : "coworking"}
-    #     }
-    # )
     update_booking(chat_id=message.chat.id, product="coworking")
 
 #  обрабатываем кнопку Перезвони мне!
@@ -138,13 +135,6 @@ def  book_callback(message: telebot.types.Message):
     bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
 
     #апдейтим состояние клиента в монго
-
-    #bookings_coll.update_one(
-    #     {"chat_id" : message.chat.id},
-    #     {
-    #         "$set" : {"product" : "callback"}
-    #     }
-    # )
     update_booking(chat_id=message.chat.id, contact=message.text)
 
 # Обрабатываем ответ с номером телефона
@@ -152,12 +142,6 @@ def  book_callback(message: telebot.types.Message):
 def  get_contact(message: telebot.types.Message):
 
     # апдейтим контакт в монго
-    # bookings_coll.update_one(
-    #     {"chat_id": message.chat.id},
-    #     {
-    #         "$set": {"contact": message.text}
-    #     }
-    # )
     update_booking(chat_id=message.chat.id, contact=message.text)
 
 
