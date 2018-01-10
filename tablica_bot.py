@@ -121,12 +121,13 @@ def book_coworking(message: telebot.types.Message):
 
     #апдейтим состояние клиента в монго
 
-    bookings_coll.update_one(
-        {"chat_id" : message.chat.id},
-        {
-            "$set" : {"product" : "coworking"}
-        }
-    )
+    # bookings_coll.update_one(
+    #     {"chat_id" : message.chat.id},
+    #     {
+    #         "$set" : {"product" : "coworking"}
+    #     }
+    # )
+    update_booking(chat_id=message.chat.id, product="coworking")
 
 #  обрабатываем кнопку Перезвони мне!
 
@@ -138,24 +139,27 @@ def  book_callback(message: telebot.types.Message):
 
     #апдейтим состояние клиента в монго
 
-    bookings_coll.update_one(
-        {"chat_id" : message.chat.id},
-        {
-            "$set" : {"product" : "callback"}
-        }
-    )
+    #bookings_coll.update_one(
+    #     {"chat_id" : message.chat.id},
+    #     {
+    #         "$set" : {"product" : "callback"}
+    #     }
+    # )
+    update_booking(chat_id=message.chat.id, contact=message.text)
 
 # Обрабатываем ответ с номером телефона
 @bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "мой телефон:")
 def  get_contact(message: telebot.types.Message):
 
     # апдейтим контакт в монго
-    bookings_coll.update_one(
-        {"chat_id": message.chat.id},
-        {
-            "$set": {"contact": message.text}
-        }
-    )
+    # bookings_coll.update_one(
+    #     {"chat_id": message.chat.id},
+    #     {
+    #         "$set": {"contact": message.text}
+    #     }
+    # )
+    update_booking(chat_id=message.chat.id, contact=message.text)
+
 
     markup = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
     buttons_final = ["В главное меню"]
@@ -183,6 +187,30 @@ def free_text(message: telebot.types.Message):
 
     answer = "Не еби мою нейросетку! Жми кнопки! "
     bot.send_message(message.chat.id, answer)
+
+
+#функция апдейтит базу контактом или продуктом
+
+def update_booking(chat_id, product = None, contact = None):
+
+    if product is not None:
+
+        bookings_coll.update_one(
+            {"chat_id": chat_id},
+            {
+                "$set": {"product": product}
+            }
+        )
+
+    if contact is not None:
+
+        bookings_coll.update_one(
+            {"chat_id": chat_id},
+            {
+                "$set": {"contact": contact}
+            }
+        )
+
 
 
 bot.polling()
