@@ -163,7 +163,26 @@ def event_size(message: telebot.types.Message):
 
     update_booking(chat_id=message.chat.id, people=message.text)
 
+# Обрабатываем ответ о продолжительности мероприятия
+@bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "продолжительность мероприятия:")
+def event_length(message: telebot.types.Message):
 
+    # убедимся что нам дали число сотрудников. Если там текст то заставим повторить и запустим функцию заново
+    try:
+        number_of_hrs = int(message.text)
+    except ValueError:
+        number_of_hrs = message.text
+        bot.send_message(chat_id=message.chat.id, text="что-то не так, введи, пожалуйста, продолжительность в часах")
+        reply_markup = types.ForceReply()
+        bot.send_message(chat_id=message.chat.id, text="продолжительность мероприятия:", reply_markup=reply_markup)
+        return None
+
+
+    update_booking(chat_id=message.chat.id, length=message.text)
+
+    reply_markup = types.ForceReply()
+    bot.send_message(chat_id=message.chat.id, text="Все получилось! Оставь нам свой телефон и мы перезвоним")
+    bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
 
 
 
@@ -176,8 +195,6 @@ def  book_callback(message: telebot.types.Message):
     bot.send_message(chat_id=message.chat.id, text="оставь нам свой телефон и мы перезвоним")
     bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
 
-    #апдейтим состояние клиента в монго
-    update_booking(chat_id=message.chat.id, contact=message.text)
 
 # Обрабатываем ответ с номером телефона
 @bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "мой телефон:")
@@ -247,11 +264,18 @@ def update_booking(chat_id, product = None, contact = None, people = None, date 
             }
         )
 
+    if length is not None:
+
+        bookings_coll.update_one(
+            {"chat_id": chat_id},
+            {
+                "$set": {"length": length}
+            }
+        )
 #календарь
 from telegramcalendar import create_calendar
 current_shown_dates={}
 
-#@bot.message_handler(commands=['calendar'])
 def get_calendar(message):
     now = datetime.datetime.now() #Current date
     chat_id = message.chat.id
@@ -300,7 +324,7 @@ def previous_month(call):
         #Do something to inform of the error
         pass
 
-
+#процессим клик по календарю
 @bot.callback_query_handler(func=lambda call: call.data[0:13] == 'calendar-day-')
 def get_day(call):
     chat_id = call.message.chat.id
@@ -318,8 +342,8 @@ def get_day(call):
     update_booking(chat_id=chat_id, date = date)
 
     reply_markup = types.ForceReply()
-    bot.send_message(chat_id=call.message.chat.id, text="все получилось! оставь нам свой телефон и мы перезвоним")
-    bot.send_message(chat_id=call.message.chat.id, text="мой телефон:", reply_markup=reply_markup)
+    bot.send_message(chat_id=call.message.chat.id, text="осталось чуть-чуть... сколько часов продлится мероприятие ? ")
+    bot.send_message(chat_id=call.message.chat.id, text="продолжительность мероприятия:", reply_markup=reply_markup)
 
 
 #handling free text message
