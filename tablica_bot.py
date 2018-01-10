@@ -135,6 +135,14 @@ def book_coworking(message: telebot.types.Message):
     #апдейтим состояние клиента в монго
     update_booking(chat_id=message.chat.id, product="coworking")
 
+
+# Обрабатываем кнопку Мероприятие
+@bot.message_handler(func = lambda message: message.text is not None and message.text == "Мероприятие")
+def  office(message: telebot.types.Message):
+    reply_markup = types.ForceReply()
+    bot.send_message(chat_id=message.chat.id, text="Number of people in event:", reply_markup=reply_markup)
+
+
 #  обрабатываем кнопку Перезвони мне!
 
 @bot.message_handler(func = lambda message: message.text is not None and message.text == "Перезвони мне")
