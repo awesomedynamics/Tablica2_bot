@@ -226,7 +226,7 @@ def main_menu(message: telebot.types.Message):
 
 #функция апдейтит базу контактом или продуктом
 
-def update_booking(chat_id, product = None, contact = None, people = None, date = None):
+def update_booking(chat_id, product = None, contact = None, people = None, date = None, length = None):
 
     if product is not None:
 
