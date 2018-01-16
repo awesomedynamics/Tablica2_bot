@@ -10,8 +10,8 @@ import os
 
 
 #подключаемся к монго
-client = MongoClient("ds141786.mlab.com:41786", username = 'podarkin', password = 'podarkin', authSource = 'heroku_q51pzrtm')
-db = client["heroku_q51pzrtm"]
+client = MongoClient(os.environ["MONGODB_URL"], username = os.environ["MONGODB_USERNAME"], password = os.environ["MONGODB_PASSWORD"], authSource = os.environ["MONGODB_AUTHSOURCE"])
+db = client[os.environ["MONGODB_AUTHSOURCE"]]
 bookings_coll = db.bookings
 log_coll = db.log
 
