@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import datetime
 import os
 from flask import Flask, request
+from flask import jsonify
 
 
 
@@ -388,16 +389,31 @@ def free_text(message: telebot.types.Message):
     bot.send_message(message.chat.id, answer)
 
 
+# @server.route("/bot", methods=['POST'])
+# def getMessage():
+#     #bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+#     return "200"
+
+# @server.route("/")
+# def webhook():
+#     bot.remove_webhook()
+#     bot.set_webhook(url="https://tablicabot.herokuapp.com/bot")
+#     return "200"
+
 @server.route("/bot", methods=['POST'])
-def getMessage():
-    #bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
-    return "200"
-
-@server.route("/")
 def webhook():
-    bot.remove_webhook()
-    bot.set_webhook(url="https://tablicabot.herokuapp.com/bot")
-    return "200"
+    if request.method == 'POST':
+        r = request.get_json()
+        chat_id = r['message']['chat']['id']
+        text = r['message']['text']
+        print(text)
 
-server.run(port=5000)
+        return jsonify(r)
+
+    return '<h1>Hello bot</h1>'
+
+
+
+
+server.run(host="0.0.0.0", port=5000)
 server = Flask(__name__)
