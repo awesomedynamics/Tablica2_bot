@@ -3,9 +3,7 @@ import pymongo
 from telebot import types
 from pymongo import MongoClient
 import datetime
-import os
 from flask import Flask, request
-from flask import jsonify
 from flask_sslify import SSLify
 
 
