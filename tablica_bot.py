@@ -3,6 +3,10 @@ import pymongo
 from telebot import types
 from pymongo import MongoClient
 import datetime
+import os
+from flask import Flask, request
+
+
 
 #подключаемся к монго
 client = MongoClient("ds141786.mlab.com:41786", username = 'podarkin', password = 'podarkin', authSource = 'heroku_q51pzrtm')
@@ -14,6 +18,7 @@ log_coll = db.log
 no_keyboard = types.ReplyKeyboardRemove()
 
 bot = telebot.TeleBot("456403564:AAFLQjaNSumXGcd9hl_nEbCZyvIFdNmFCHk")
+server = Flask(__name__)
 
 #handling start or help command
 @bot.message_handler(commands=['start','help'])
@@ -383,4 +388,16 @@ def free_text(message: telebot.types.Message):
     bot.send_message(message.chat.id, answer)
 
 
-bot.polling()
+@server.route("/bot", methods=['POST'])
+def getMessage():
+    bot.process_new_updates([telebot.types.Update.de_json(request.stream.read().decode("utf-8"))])
+    return "!", 200
+
+@server.route("/")
+def webhook():
+    bot.remove_webhook()
+    bot.set_webhook(url="https://tablicabot.herokuapp.com/bot")
+    return "!", 200
+
+server.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
+server = Flask(__name__)
