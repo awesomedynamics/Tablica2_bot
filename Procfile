@@ -1,1 +1,1 @@
-web: gunicorn tablica_bot:tablica_bot
+web: gunicorn tablica_bot:server
