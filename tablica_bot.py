@@ -18,9 +18,7 @@ log_coll = db.log
 
 no_keyboard = types.ReplyKeyboardRemove()
 
-TOKEN = os.environ['TOKEN']
-
-bot = telebot.TeleBot(TOKEN)
+bot = telebot.TeleBot(os.environ["TOKEN"])
 server = Flask(__name__)
 sslify=SSLify(server)
 
