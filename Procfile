@@ -1,1 +1,1 @@
-web: tablica_bot:tablica_bot
+web: app:tablica_bot

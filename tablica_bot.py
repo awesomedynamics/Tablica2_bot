@@ -417,5 +417,5 @@ def webhook():
 
 
 
-server.run(host="0.0.0.0", port=8080)
-server = Flask(__name__)
+#server.run(host="0.0.0.0", port=8080)
+#server = Flask(__name__)
