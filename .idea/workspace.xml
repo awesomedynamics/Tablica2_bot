@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a77ce7ae-4598-44b2-b944-661e4dfd80d1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/Procfile" afterPath="$PROJECT_DIR$/Procfile" />
+      <change beforePath="$PROJECT_DIR$/tablica_bot.py" afterPath="$PROJECT_DIR$/tablica_bot.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tablica_bot.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="tablica_bot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tablica_bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="341">
-              <caret line="416" column="0" lean-forward="false" selection-start-line="416" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
+            <state relative-caret-position="401">
+              <caret line="404" column="20" lean-forward="false" selection-start-line="404" selection-start-column="20" selection-end-line="404" selection-end-column="20" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
                 <element signature="e#4903#5124#0" expanded="false" />
@@ -37,7 +37,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Procfile" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Procfile" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Procfile">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
@@ -95,9 +95,9 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/database_desc" />
-        <option value="$PROJECT_DIR$/tablica_bot.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Procfile" />
+        <option value="$PROJECT_DIR$/tablica_bot.py" />
       </list>
     </option>
   </component>
@@ -380,15 +380,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tablica_bot.py">
+    <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="341">
-          <caret line="416" column="0" lean-forward="false" selection-start-line="416" selection-start-column="0" selection-end-line="417" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-            <element signature="e#4903#5124#0" expanded="false" />
-            <element signature="e#5310#5648#0" expanded="false" />
-          </folding>
+        <state relative-caret-position="0">
+          <caret line="0" column="32" lean-forward="false" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
+          <folding />
         </state>
       </provider>
     </entry>
@@ -400,11 +396,15 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Procfile">
+    <entry file="file://$PROJECT_DIR$/tablica_bot.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="32" lean-forward="false" selection-start-line="0" selection-start-column="32" selection-end-line="0" selection-end-column="32" />
-          <folding />
+        <state relative-caret-position="401">
+          <caret line="404" column="20" lean-forward="false" selection-start-line="404" selection-start-column="20" selection-end-line="404" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4903#5124#0" expanded="false" />
+            <element signature="e#5310#5648#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
