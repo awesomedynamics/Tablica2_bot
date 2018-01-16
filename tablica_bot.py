@@ -5,6 +5,7 @@ from pymongo import MongoClient
 import datetime
 from flask import Flask, request
 from flask_sslify import SSLify
+import os
 
 
 
@@ -17,7 +18,9 @@ log_coll = db.log
 
 no_keyboard = types.ReplyKeyboardRemove()
 
-bot = telebot.TeleBot("456403564:AAFLQjaNSumXGcd9hl_nEbCZyvIFdNmFCHk")
+TOKEN = os.environ['TOKEN']
+
+bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 sslify=SSLify(server)
 
