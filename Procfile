@@ -1,1 +1,1 @@
-worker: python tablica_bot.py
+web: python tablica_bot.py

@@ -8,6 +8,7 @@ import datetime
 client = MongoClient("ds141786.mlab.com:41786", username = 'podarkin', password = 'podarkin', authSource = 'heroku_q51pzrtm')
 db = client["heroku_q51pzrtm"]
 bookings_coll = db.bookings
+log_coll = db.log
 
 
 no_keyboard = types.ReplyKeyboardRemove()
@@ -30,21 +31,8 @@ def start_command(message: telebot.types.Message):
     bot.send_message(message.chat.id, "Так о чем же тебе рассказать ?",
                      reply_markup=markup)
 
-    print(message)
-
-    username = str(message.chat.first_name) + " " + str(message.chat.last_name)
-
-    print(username)
-
-    #вставляем в монго запись - раз и навсегда
-    booking = {
-        "chat_id" : message.chat.id,
-        "name" : username,
-        "product" : None,
-        "contact" : None
-    }
-
-    bookings_coll.insert_one(booking)
+    #Регистрируем юзера
+    register_user(message)
 
 # Обрабатываем кнопку офис
 @bot.message_handler(func = lambda message: message.text is not None and message.text == "Офис")
@@ -164,7 +152,7 @@ def event_size(message: telebot.types.Message):
     update_booking(chat_id=message.chat.id, people=message.text)
 
 # Обрабатываем ответ о продолжительности мероприятия
-@bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "продолжительность мероприятия:")
+@bot.message_handler(func = lambda message: message.reply_to_message is not None and message.reply_to_message.text == "продолжительность мероприятия (в часах):")
 def event_length(message: telebot.types.Message):
 
     # убедимся что нам дали число сотрудников. Если там текст то заставим повторить и запустим функцию заново
@@ -174,7 +162,7 @@ def event_length(message: telebot.types.Message):
         number_of_hrs = message.text
         bot.send_message(chat_id=message.chat.id, text="что-то не так, введи, пожалуйста, продолжительность в часах")
         reply_markup = types.ForceReply()
-        bot.send_message(chat_id=message.chat.id, text="продолжительность мероприятия:", reply_markup=reply_markup)
+        bot.send_message(chat_id=message.chat.id, text="продолжительность мероприятия (в часах):", reply_markup=reply_markup)
         return None
 
 
@@ -272,6 +260,46 @@ def update_booking(chat_id, product = None, contact = None, people = None, date 
                 "$set": {"length": length}
             }
         )
+
+#функция пишет лог в базу
+
+def update_log(chat_id = None, message = None):
+
+    if chat_id is not None and message is not None:
+        print(message)
+        username = str(message.chat.first_name) + " " + str(message.chat.last_name)
+
+        log_record = {
+                "chat_id" : message.chat.id,
+                "name" : username,
+                "time" : datetime.datetime.now(),
+                "message" : message.text
+            }
+        username = str(message.chat.first_name) + " " + str(message.chat.last_name)
+
+        log_coll.insert_one(log_record)
+
+def register_user(message):
+
+    existing_booking = bookings_coll.find_one({"chat_id":message.chat.id})
+    print(existing_booking)
+
+    if existing_booking is None:
+
+        username = str(message.chat.first_name) + " " + str(message.chat.last_name)
+
+        booking = {
+            "chat_id": message.chat.id,
+            "name": username,
+            "product": None,
+            "contact": None
+        }
+
+        # вставляем в монго запись - раз и навсегда
+        bookings_coll.insert_one(booking)
+
+
+
 #календарь
 from telegramcalendar import create_calendar
 current_shown_dates={}
@@ -282,7 +310,7 @@ def get_calendar(message):
     date = (now.year,now.month)
     current_shown_dates[chat_id] = date #Saving the current date in a dict
     markup= create_calendar(now.year,now.month)
-    bot.send_message(message.chat.id, "Please, choose a date", reply_markup=markup)
+    bot.send_message(message.chat.id, "легко! Выбери дату твоего события", reply_markup=markup)
 
 
 #функции передвижения по календарю
@@ -299,7 +327,7 @@ def next_month(call):
         date = (year,month)
         current_shown_dates[chat_id] = date
         markup= create_calendar(year,month)
-        bot.edit_message_text("Please, choose a date", call.from_user.id, call.message.message_id, reply_markup=markup)
+        bot.edit_message_text("легко! Выбери дату твоего события", call.from_user.id, call.message.message_id, reply_markup=markup)
         bot.answer_callback_query(call.id, text="")
     else:
         #Do something to inform of the error
@@ -318,7 +346,7 @@ def previous_month(call):
         date = (year,month)
         current_shown_dates[chat_id] = date
         markup= create_calendar(year,month)
-        bot.edit_message_text("Please, choose a date", call.from_user.id, call.message.message_id, reply_markup=markup)
+        bot.edit_message_text("легко! Выбери дату твоего события", call.from_user.id, call.message.message_id, reply_markup=markup)
         bot.answer_callback_query(call.id, text="")
     else:
         #Do something to inform of the error
@@ -343,14 +371,15 @@ def get_day(call):
 
     reply_markup = types.ForceReply()
     bot.send_message(chat_id=call.message.chat.id, text="осталось чуть-чуть... сколько часов продлится мероприятие ? ")
-    bot.send_message(chat_id=call.message.chat.id, text="продолжительность мероприятия:", reply_markup=reply_markup)
+    bot.send_message(chat_id=call.message.chat.id, text="продолжительность мероприятия (в часах):", reply_markup=reply_markup)
 
 
 #handling free text message
 @bot.message_handler()
 def free_text(message: telebot.types.Message):
 
-    answer = "Не еби мою нейросетку! Жми кнопки! "
+    answer = "Я пока ничего об этом не знаю, но ты точно найдешь желанное на нашем сайте! http://tablica.work/ "
+    update_log(chat_id=message.chat.id, message=message)
     bot.send_message(message.chat.id, answer)
 
 
