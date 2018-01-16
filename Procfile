@@ -1,1 +1,1 @@
-web: app:tablica_bot
+web: gunicorn app:tablica_bot
