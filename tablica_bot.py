@@ -399,5 +399,5 @@ def webhook():
     bot.set_webhook(url="https://tablicabot.herokuapp.com/bot")
     return "!", 200
 
-server.run(host="0.0.0.0", port=os.environ.get('PORT', 5000))
+server.run(host="0.0.0.0", port=8080)
 server = Flask(__name__)
