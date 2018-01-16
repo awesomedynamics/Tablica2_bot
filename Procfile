@@ -1,1 +1,1 @@
-web: python tablica_bot.py
+web: tablica_bot:tablica_bot
