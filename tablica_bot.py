@@ -6,6 +6,7 @@ import datetime
 import os
 from flask import Flask, request
 from flask import jsonify
+from flask_sslify import SSLify
 
 
 
@@ -20,6 +21,7 @@ no_keyboard = types.ReplyKeyboardRemove()
 
 bot = telebot.TeleBot("456403564:AAFLQjaNSumXGcd9hl_nEbCZyvIFdNmFCHk")
 server = Flask(__name__)
+sslify=SSLify(server)
 
 #handling start or help command
 @bot.message_handler(commands=['start','help'])
