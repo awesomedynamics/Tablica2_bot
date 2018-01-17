@@ -1,4 +1,11 @@
 #функция апдейтит базу контактом или продуктом
+
+client = MongoClient(os.environ["MONGODB_URL"], username = os.environ["MONGODB_USERNAME"], password = os.environ["MONGODB_PASSWORD"], authSource = os.environ["MONGODB_AUTHSOURCE"])
+db = client[os.environ["MONGODB_AUTHSOURCE"]]
+bookings_coll = db.bookings
+log_coll = db.log
+
+
 def update_booking(chat_id, product = None, contact = None, people = None, date = None, length = None):
 
     if product is not None:
