@@ -46,7 +46,7 @@ def start_command(message: telebot.types.Message):
 @bot.message_handler(func = lambda message: message.text is not None and message.text == "Офис")
 def  office(message: telebot.types.Message):
     reply_markup = types.ForceReply()
-    bot.send_message(chat_id=message.chat.id, text="количество сотрудников", reply_markup=reply_markup)
+    bot.send_message(chat_id=message.chat.id, text="количество сотрудников:", reply_markup=reply_markup)
 
 
 # Обрабатываем ответ о кол-ве людей в офисе
