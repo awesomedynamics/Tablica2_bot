@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a77ce7ae-4598-44b2-b944-661e4dfd80d1" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/mongodb_api.py" afterPath="$PROJECT_DIR$/mongodb_api.py" />
+      <change beforePath="$PROJECT_DIR$/tablica_bot.py" afterPath="$PROJECT_DIR$/tablica_bot.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -13,20 +13,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="tablica_bot.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="tablica_bot.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tablica_bot.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="15" />
+            <state relative-caret-position="377">
+              <caret line="146" column="73" lean-forward="false" selection-start-line="146" selection-start-column="73" selection-end-line="146" selection-end-column="73" />
               <folding>
-                <element signature="e#4320#4541#0" expanded="false" />
-                <element signature="e#4727#5065#0" expanded="false" />
+                <element signature="e#0#14#0" expanded="true" />
+                <element signature="e#4307#4528#0" expanded="false" />
+                <element signature="e#4714#5052#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mongodb_api.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="mongodb_api.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mongodb_api.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="315">
@@ -99,6 +100,11 @@
       </list>
     </option>
   </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>number of</find>
+    </findStrings>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -108,8 +114,8 @@
         <option value="$PROJECT_DIR$/database_desc" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/Procfile" />
-        <option value="$PROJECT_DIR$/tablica_bot.py" />
         <option value="$PROJECT_DIR$/mongodb_api.py" />
+        <option value="$PROJECT_DIR$/tablica_bot.py" />
       </list>
     </option>
   </component>
@@ -271,8 +277,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -282,8 +289,9 @@
         <state relative-caret-position="225">
           <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -293,8 +301,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -320,8 +329,9 @@
         <state relative-caret-position="401">
           <caret line="420" column="24" lean-forward="true" selection-start-line="420" selection-start-column="24" selection-end-line="420" selection-end-column="24" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -331,8 +341,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -342,8 +353,9 @@
         <state relative-caret-position="225">
           <caret line="16" column="36" lean-forward="true" selection-start-line="16" selection-start-column="36" selection-end-line="16" selection-end-column="36" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -353,8 +365,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -401,23 +414,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tablica_bot.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="0" lean-forward="false" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="15" />
-          <folding>
-            <element signature="e#4320#4541#0" expanded="false" />
-            <element signature="e#4727#5065#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mongodb_api.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="9" lean-forward="true" selection-start-line="21" selection-start-column="9" selection-end-line="21" selection-end-column="9" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tablica_bot.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="377">
+          <caret line="146" column="73" lean-forward="false" selection-start-line="146" selection-start-column="73" selection-end-line="146" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+            <element signature="e#4307#4528#0" expanded="false" />
+            <element signature="e#4714#5052#0" expanded="false" />
           </folding>
         </state>
       </provider>
