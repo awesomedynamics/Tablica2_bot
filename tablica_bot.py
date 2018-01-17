@@ -13,6 +13,7 @@ import mongodb_api
 client = MongoClient(os.environ["MONGODB_URL"], username = os.environ["MONGODB_USERNAME"], password = os.environ["MONGODB_PASSWORD"], authSource = os.environ["MONGODB_AUTHSOURCE"])
 db = client[os.environ["MONGODB_AUTHSOURCE"]]
 bookings_coll = db.bookings
+office_coll = db.office_links
 log_coll = db.log
 
 
@@ -74,7 +75,7 @@ def  office_options(message: telebot.types.Message):
 
     if number_of_empl >= 4 and number_of_empl <= 23:
 
-        office_url_record = bookings_coll.find_one({"size": number_of_empl})
+        office_url_record = office_coll.find_one({"size": number_of_empl})
         office_url = office_url_record["url"]
 
 
