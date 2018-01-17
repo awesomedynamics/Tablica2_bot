@@ -71,37 +71,29 @@ def  office_options(message: telebot.types.Message):
 
 #тут будет говнокод, надо будет нормально написать. Показываем ссылки на офисы
 
-    if number_of_empl == 4:
+
+    if number_of_empl >= 4 and number_of_empl <= 23:
+
+        office_url_record = bookings_coll.find_one({"size": number_of_empl})
+        office_url = office_url_record["url"]
+
+
         markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
         buttons_office_book = ["Хочу этот офис!", "В главное меню"]
         markup.row(buttons_office_book[0], buttons_office_book[1])
 
-        bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на четверых")
-        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1507644732627",reply_markup=markup)
+        bot.send_message(chat_id=message.chat.id, text="вот что у нас есть")
+        bot.send_message(chat_id=message.chat.id, text=office_url, reply_markup=markup)
         # апдейтим состояние клиента в монго
-        update_booking(chat_id=message.chat.id, product="office 4")
+        update_booking(chat_id=message.chat.id, product="office", people=number_of_empl)
 
-    if number_of_empl == 5:
-        markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-        buttons_office_book = ["Хочу этот офис!", "В главное меню"]
-        markup.row(buttons_office_book[0], buttons_office_book[1])
-        bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на пятерых")
-        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1498486301712",reply_markup=markup)
+    if number_of_empl > 23:
+
+        reply_markup = types.ForceReply()
+        bot.send_message(chat_id=message.chat.id, text="у нас готовые решения до 23 человек, но мы можем больше! оставь нам свой телефон и мы перезвоним")
+        bot.send_message(chat_id=message.chat.id, text="мой телефон:", reply_markup=reply_markup)
         # апдейтим состояние клиента в монго
-        update_booking(chat_id=message.chat.id, product="office 5")
-
-    if number_of_empl == 6:
-        markup = types.ReplyKeyboardMarkup(row_width=2, resize_keyboard=True)
-        buttons_office_book = ["Хочу этот офис!", "В главное меню"]
-        markup.row(buttons_office_book[0], buttons_office_book[1])
-        bot.send_message(chat_id=message.chat.id, text="вот что у нас есть на шестерых")
-        bot.send_message(chat_id=message.chat.id, text="http://tablica.work/#office#!/tproduct/34756154-1507644678469",reply_markup=markup)
-        # апдейтим состояние клиента в монго
-        update_booking(chat_id=message.chat.id, product="office 6")
-
-    if number_of_empl > 6:
-        bot.send_message(chat_id=message.chat.id, text="это еще не доделано, давай тестить на кол-ве меньше 6")
-
+        update_booking(chat_id=message.chat.id, product="office", people=number_of_empl)
 
 #  обрабатываем кнопку Хочу этот офис!
 
