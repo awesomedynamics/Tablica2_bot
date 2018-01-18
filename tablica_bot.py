@@ -236,7 +236,7 @@ def next_month(call):
         current_shown_dates[chat_id] = date
         markup= create_calendar(year,month)
         bot.edit_message_text("легко! Выбери дату твоего события", call.from_user.id, call.message.message_id, reply_markup=markup)
-        bot.answer_callback_query(call.id, text="")
+        bot.answer_callback_query(call.id, text=".")
     else:
         #Do something to inform of the error
         pass
@@ -255,7 +255,7 @@ def previous_month(call):
         current_shown_dates[chat_id] = date
         markup= create_calendar(year,month)
         bot.edit_message_text("легко! Выбери дату твоего события", call.from_user.id, call.message.message_id, reply_markup=markup)
-        bot.answer_callback_query(call.id, text="")
+        bot.answer_callback_query(call.id, text=".")
     else:
         #Do something to inform of the error
         pass
@@ -269,7 +269,7 @@ def get_day(call):
         day=call.data[13:]
         date = datetime.datetime(int(saved_date[0]),int(saved_date[1]),int(day),0,0,0)
         bot.send_message(chat_id, str(date))
-        bot.answer_callback_query(call.id, text="")
+        bot.answer_callback_query(call.id, text=".")
 
     else:
         #Do something to inform of the error
