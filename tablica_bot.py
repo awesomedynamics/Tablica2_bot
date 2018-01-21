@@ -301,5 +301,5 @@ def getMessage():
 @server.route("/")
 def webhook():
      bot.remove_webhook()
-     bot.set_webhook(url="https://tablicabot.herokuapp.com/bot")
+     bot.set_webhook(url=os.environ["APP_URL"])
      return "!", 200
